@@ -22,7 +22,6 @@ public interface TaskMapper {
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "completedAt", ignore = true)
     @Mapping(target = "user", ignore = true)
-    @Mapping(target = "status", constant = "java(TaskStatus.TODO)")
     public Task toEntity(CreateTaskRequest request);
 
     @Mapping(target = "id", ignore = true)

@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.awt.print.Pageable;
+import org.springframework.data.domain.Pageable;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -17,12 +17,12 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     List<Task> findByUserIdAndStatus(Long userId, TaskStatus status);
     List<Task> findByUserIdAndPriority(Long userId, TaskPriority priority);
     Page<Task> findByUserIdOrderByCreatedAtDesc(Long userId, Pageable pageable);
-    List<Task> findByUserIdAndStatusAndOrderByPriorityDescDueDateAsc(Long userId,
+    List<Task> findByUserIdAndStatusOrderByPriorityDescDueDateAsc(Long userId,
                                                                      TaskStatus status);
     long countByUserIdAndStatus(Long userId, TaskStatus status);
 
     List<Task> findByUserIdAndDueDateBefore(Long userId, LocalDate date);
-    boolean existByIdAndUserId(Long id, Long userId);
+    boolean existsByIdAndUserId(Long id, Long userId);
 
 
 }
