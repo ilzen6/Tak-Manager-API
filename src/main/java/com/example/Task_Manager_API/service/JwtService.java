@@ -1,7 +1,9 @@
 package com.example.Task_Manager_API.service;
 
 import io.jsonwebtoken.Claims;
+
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -36,13 +38,12 @@ public class JwtService {
         log.info("Generating JWT token for user: {}", username);
 
         return Jwts.builder()
-
-                .claims(extraClaims)
-                .subject(username)
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(getSignInKey())
-                .compact();
+                .setClaims(extraClaims)                                    // Дополнительные данные
+                .setSubject(username)                                      // Username (главный идентификатор)
+                .setIssuedAt(new Date(System.currentTimeMillis()))        // Время создания
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))  // Время истечения
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)       // Подпись ключом
+                .compact();                                                // Собираем в строку
     }
 
     public String extractUsername(String token) {
@@ -61,11 +62,11 @@ public class JwtService {
 
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parser()
-                .verifyWith(getSignInKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
+        return Jwts.parserBuilder()                    // Создаём парсер
+                .setSigningKey(getSignInKey())         // Устанавливаем ключ для проверки
+                .build()                               // Строим парсер
+                .parseClaimsJws(token)                 // Парсим токен
+                .getBody();                            // Получаем payload (claims)
     }
 
     private boolean isTokenExpired(String token) {
