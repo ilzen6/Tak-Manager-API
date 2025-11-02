@@ -6,7 +6,6 @@ import com.example.Task_Manager_API.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
-import com.example.Task_Manager_API.enums.Role;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.WARN)
 public interface UserMapper {
@@ -18,6 +17,6 @@ public interface UserMapper {
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "tasks", ignore = true)
-    @Mapping(target = "role", expression = "java(Role.USER)")
+    @Mapping(target = "role", expression = "java(com.example.Task_Manager_API.enums.Role.USER)")
     public User toEntity(RegisterRequest request);
 }

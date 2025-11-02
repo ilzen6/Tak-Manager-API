@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  # PostgreSQL база данных
+  postgres:
+    image: postgres:15-alpine          # Образ PostgreSQL версия 15
+    container_name: task-manager-db    # Имя контейнера
+    environment:
+      POSTGRES_DB: taskmanager         # Название базы данных
+      POSTGRES_USER: admin             # Имя пользователя
+      POSTGRES_PASSWORD: admin123      # Пароль
+    ports:
+      - "5432:5432"                    # Порт: host:container
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Сохранение данных
+    restart: unless-stopped            # Автоперезапуск
+
+# Том для сохранения данных (чтобы не потерять при перезапуске)
+volumes:
+  postgres_data:

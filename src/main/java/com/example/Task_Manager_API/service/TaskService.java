@@ -96,7 +96,7 @@ public class TaskService {
         Task task = taskRepository.findById(taskId).orElseThrow(
                 () -> new TaskNotFoundException("Task not found: " + taskId)
         );
-        // Можно упростить: не загружать user из БД, взять из task
+
         if (!(task.getUser().getUsername().equals(username))) {
             throw new UnauthorizedException("Access denied to task: " + taskId);
         }
