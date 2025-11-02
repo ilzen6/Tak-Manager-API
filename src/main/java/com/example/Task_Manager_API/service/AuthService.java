@@ -46,7 +46,7 @@ public class AuthService {
         return AuthResponse.builder()
                 .token(token)
                 .type("Bearer")
-                .username(savedUser.getUsername())  // ← ЗАБЫЛ username!
+                .username(savedUser.getUsername())
                 .email(savedUser.getEmail())
                 .role(savedUser.getRole())
                 .build();
